@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Quiz Website</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body dir="rtl">
+
+<div class="container">
+    <div class="side-menu hidden">
+        <h2>قائمة الاسئلة</h2>
+        <ul id="question-list"></ul>
+        <!-- <button class="btn btn-primary finish-btn" disabled onclick="finishQuiz()" disabled>Finish Quiz</button> -->
+    </div>
+
+   <div class="quiz-container">
+        <div class="start-screen">
+            <img src="https://media.baamboozle.com/uploads/images/52349/d668ee36-a969-400f-a388-ac5bbf76ca27.gif" alt="reading-image" class="start-image" />
+            <h1>مرحبا بك في الاختبار التمهيدي</h1>
+            <div onclick="startQuiz()" class="wrapper">
+                <div class="link_wrapper">
+                  <a href="#">ابدأ الاختبار</a>
+                  <div class="icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 268.832 268.832">
+                      <path d="M265.17 125.577l-80-80c-4.88-4.88-12.796-4.88-17.677 0-4.882 4.882-4.882 12.796 0 17.678l58.66 58.66H12.5c-6.903 0-12.5 5.598-12.5 12.5 0 6.903 5.597 12.5 12.5 12.5h213.654l-58.66 58.662c-4.88 4.882-4.88 12.796 0 17.678 2.44 2.44 5.64 3.66 8.84 3.66s6.398-1.22 8.84-3.66l79.997-80c4.883-4.882 4.883-12.796 0-17.678z"/>
+                    </svg>
+                  </div>
+                </div>
+              </div>
+        </div>
+        
+        <div class="quiz-questions hidden">
+            <div class="question-part"></div>
+            <div class="image-part">
+                <img src="" alt="quistion-image" class="quistion-image" />
+            </div>
+            <!-- Questions will be dynamically added here -->
+        </div>
+
+        <div class="finish-screen">
+            <h1>انتهى الاختبار</h1>
+            <p>نتيجتك هي: <span id="score">0</span></p>
+            <img class="result-image hidden happy-pass" src="https://img1.picmix.com/output/stamp/normal/3/3/5/8/1628533_2b6fe.gif" alt="passed" />
+            <img class="result-image hidden sad-fail" src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/484a043f-cf88-48b9-bb32-bba9cf9f23f5/d47o06o-ed9ff180-b670-4295-8883-23e25c2983e3.gif?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcLzQ4NGEwNDNmLWNmODgtNDhiOS1iYjMyLWJiYTljZjlmMjNmNVwvZDQ3bzA2by1lZDlmZjE4MC1iNjcwLTQyOTUtODg4My0yM2UyNWMyOTgzZTMuZ2lmIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.l0B6wseJnJaS7X6Um4xKLXHX_LIhyN3LESNYFWgGxak" alt="passed" />
+        </div>
+    </div>
+</div>
+
+
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script src="./js/app.js"></script>
+</body>
+</html>
