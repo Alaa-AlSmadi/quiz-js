@@ -73,7 +73,7 @@ function checkAnswer(selectedAnswer) {
         if (currentQuestion < questions.length) {
             showQuestion();
         } else {
-            document.querySelector('.quistion-image').classList.add('hidden');
+            document.querySelector('.image-part').classList.add('hidden');
             toggleSideMenu();
             showFinishScreen();
         }

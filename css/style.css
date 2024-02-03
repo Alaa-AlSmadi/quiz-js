@@ -109,6 +109,8 @@ body {
     display: flex;
     flex-direction: row;
     align-items: flex-end;
+    width: -webkit-fill-available;
+    justify-content: space-around;
 }
 
 .quiz-questions .question-part {
