@@ -14,30 +14,52 @@ const questionImages =  [
     "https://png.pngtree.com/png-clipart/20230927/original/pngtree-cute-watercolour-safari-lion-animals-kid-back-to-school-reading-book-png-image_13148872.png",
 ]
 
-function toggleSideMenu() {
-    const sideMenu = document.querySelector('.side-menu');
-    if(sideMenu.classList.contains('hidden')) {
-        sideMenu.classList.remove('hidden');
-    } else {
-        sideMenu.classList.add('hidden');
-    }
-}
-
 function startQuiz() {
-    document.querySelector(".start-screen").style.display = 'none';
+    document.querySelector(".start-screen").classList.add('hidden');
     document.querySelector(".quiz-questions").classList.remove('hidden');
-    toggleSideMenu();
-    showQuestion();
+    showQustionsList();
 }
 
-function showQuestion() {
-    const random = Math.floor(Math.random() * 3);
-    document.querySelector('.quistion-image').src = questionImages[random];
+function showQustionsList() {
+    const quizQuestions = document.querySelector(".question-part");
 
+    quizQuestions.innerHTML = `
+        <div class="question-cards-container">
+            ${questions.map((question, idx) => {
+                let cardContent, disabled, showWrongIcon;
+                if (question.userAnswer && question.userAnswer === question.correctAnswer) {
+                    cardContent = question.question;
+                    disabled = true;
+                } else if (question.userAnswer && question.userAnswer !== question.correctAnswer && currentQuestion === idx) {
+                    showWrongIcon = true;
+                    disabled = true;
+                    cardContent = idx+1;
+                } else {
+                    cardContent = idx+1;
+                }
+                return `
+                    <div onclick="showQuestion(${idx})" class="card w3-animate-zoom ${disabled && 'disabled'}">
+                        <div class="card-hover-state">
+                            ${
+                                showWrongIcon ?
+                                '<img alt="wrong" src="https://static-00.iconduck.com/assets.00/false-icon-512x512-nu355k3j.png" />'
+                                : ''
+                            }
+                            <span>${cardContent}</span>
+                        </div>
+                    </div>
+                `
+            }).join('')}
+        </div>
+    `;
+}
+
+function showQuestion(questionIndex) {
+    currentQuestion = questionIndex;
     const currentQuestionObj = questions[currentQuestion];
     const quizQuestions = document.querySelector(".question-part");
     quizQuestions.innerHTML = `
-        <h3>${currentQuestionObj.question}</h3>
+        <h3 class="w3-animate-bottom question-title">${currentQuestionObj.question}</h3>
         <div class="btn-group-vertical">
             ${currentQuestionObj.options.map((option, idx) => {
                 const animateType = idx%2===0 ? "w3-animate-zoom" : "w3-animate-zoom"
@@ -45,7 +67,6 @@ function showQuestion() {
             }).join('')}
         </div>
     `;
-    updateQuestionList();
 }
 
 function checkAnswer(selectedAnswer) {
@@ -60,29 +81,30 @@ function checkAnswer(selectedAnswer) {
         playCorrectSound();
     } else {
         btnOption.classList.add("wrong-answer");
-        const correctBtn = Array.from(buttons).find(button => button.textContent.includes(currentQuestionObj.correctAnswer));
-        correctBtn.classList.add("correct-answer");
+        // const correctBtn = Array.from(buttons).find(button => button.textContent.includes(currentQuestionObj.correctAnswer));
+        // correctBtn.classList.add("correct-answer");
         playWrongSound();
     }
 
-    currentQuestion++;
     setTimeout(() => {
         removeClassFromButtons("correct-answer");
         removeClassFromButtons("wrong-answer");
 
-        if (currentQuestion < questions.length) {
-            showQuestion();
-        } else {
-            document.querySelector('.image-part').classList.add('hidden');
-            toggleSideMenu();
+        let isExamFinished = false;
+        let totalAnsweredQuestions = 0, totalWrongAnswers=0;
+        questions.forEach(question => {
+            if (question.userAnswer) totalAnsweredQuestions+=1;
+            if (question.userAnswer && question.correctAnswer !== question.userAnswer) totalWrongAnswers+=1
+        });
+
+        if (totalAnsweredQuestions === questions.length && totalWrongAnswers === 0) {
             showFinishScreen();
+        } else if(totalAnsweredQuestions === questions.length && totalWrongAnswers===1 && questions[currentQuestion].userAnswer !== questions[currentQuestion].correctAnswer) {
+            showFinishScreen();
+        } else {
+            showQustionsList();
         }
-        // for (let index = 0; index < questions.length; index++) {
-        //     if (!questions[index].userAnswer) break;
-        //     if (index === questions.length - 1) document.querySelector(".finish-btn").removeAttribute('disabled');
-        // }
     }, 1000);
-    updateQuestionList();
 }
 
 function showFinishScreen() {
@@ -104,23 +126,13 @@ function showCorrections() {
     document.querySelector(".quiz-questions").classList.remove('hidden');
     const quizQuestions = document.querySelector(".question-part");
     quizQuestions.innerHTML = `
-        <h3>الاجابات الصحيحة:</h3>
-        <ul>
-            ${questions.map((q, index) => `<li><strong>سؤال رقم ${index + 1}:</strong> ${q.correctAnswer}</li>`).join('')}
-        </ul>
+        <div class="correction-screen">
+            <h3>الاجابات الصحيحة:</h3>
+            <ul>
+                ${questions.map((q, index) => `<li><strong>${q.question}: ${q.correctAnswer}</strong></li>`).join('')}
+            </ul>
+        </div>
     `;
-}
-
-function updateQuestionList() {
-    const questionList = document.getElementById("question-list");
-    questionList.innerHTML = '';
-
-    questions.forEach((_, index) => {
-        const listItem = document.createElement("li");
-        listItem.innerHTML = `سؤال رقم ${index + 1} <b>${_.userAnswer}</b>`;
-        // listItem.onclick = () => showSpecificQuestion(index);
-        questionList.appendChild(listItem);
-    });
 }
 
 function showSpecificQuestion(questionIndex) {
