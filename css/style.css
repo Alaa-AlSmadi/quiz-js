@@ -124,8 +124,8 @@ body {
 }
 
 .card {
-    width: 15vw;
-    height: 15vw;
+    width: 150px;
+    height: 150px;
     display: flex;
     align-items: center;
     justify-content: center;
